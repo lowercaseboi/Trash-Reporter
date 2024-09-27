@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Trash Reporter</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="dashboard.js" defer></script> <!-- Added defer to load script after DOM -->
+</head>
+<body>
+    <!-- Navigation bar -->
+    <div class="navbar">
+        <h1>Trash Reporter</h1>
+        <div class="nav-right">
+            <div class="dropdown">
+                <img src="profile.png" alt="Profile" class="profile-icon" />
+                <div class="dropdown-content">
+                    <a href="#" id="editProfile">Edit Profile</a>
+                    <a href="#" class="logout" id="logoutButton">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="logoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Are you sure you want to log out?</h2>
+            <button id="confirmLogout">Yes</button>
+            <button id="cancelLogout">No</button>
+        </div>
+    </div>
+
+    <div class="feature-cards">
+        <div class="card card-1 left-align" id="raiseComplaintCard">
+            <a href="complain.html" style="text-decoration: none; color: white;">
+                <h2>Report Trash</h2>
+                <p>Report any issues related to trash disposal in your area.</p>
+            </a>
+        </div>
+        <div class="card card-2 right-align" id="yourComplaintsCard">
+            <h2>Your Activity</h2>
+            <p>View the status of your previously raised complaints.</p>
+        </div>
+        
+        <div class="card card-3 left-align" id="complaintsNearYouCard">
+            <h2>Activity Near You</h2>
+            <p>See trash reported in your vicinity.</p>
+        </div>
+    </div>
+</body>
+</html>

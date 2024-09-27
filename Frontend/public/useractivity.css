@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+    text-align: center;
+}
+
+#complaintsContainer {
+    margin-top: 20px;
+}
+
+.complaint {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.complaint p {
+    margin: 5px 0;
+}
+
+.complaint img {
+    display: block;
+    margin: 10px 0;
+}
+
+#goBackButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#goBackButton:hover {
+    background-color: #45a049;
+}
+
+/* Modal styling */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9); /* Dark background */
+}
+
+/* Modal content (the enlarged image) */
+.modal-content {
+    margin: auto;
+    display: block;
+    max-width: 80%; /* Limit the enlarged image size */
+    max-height: 80%; /* Maintain aspect ratio */
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3); /* Light shadow for clarity */
+    border-radius: 5px; /* Smooth corners */
+    animation: fadeIn 0.3s; /* Smooth fade-in */
+}
+
+/* Close button for the modal */
+.close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Add hover effect for close button */
+.close:hover,
+.close:focus {
+    color: #bbb;
+}
+
+/* Small thumbnail image styling */
+.small-image {
+    max-width: 100px; /* Thumbnail size */
+    max-height: 100px; /* Maintain aspect ratio */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: transform 0.2s ease-in-out; /* Add a hover effect */
+}
+
+/* Add slight scale on hover for the thumbnail */
+.small-image:hover {
+    transform: scale(1.05);
+}
+
+/* Fade-in animation for the modal */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

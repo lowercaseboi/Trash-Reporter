@@ -1,0 +1,89 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f9f4; /* Light yellowish-green background */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+/* Container for login/signup forms */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center; /* Center the contents */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Title styling */
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2e7d32; /* Darker green */
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Input fields */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #81c784; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+button:hover {
+    background-color: #66bb6a; /* Darker green on hover */
+}
+
+/* Role select styling */
+.role-select {
+    margin: 15px 0;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+/* Links styling */
+a {
+    color: #2e7d32; /* Green */
+    text-decoration: none;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Login/Signup link styling */
+.signup-link, .login-link {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 14px;
+}
