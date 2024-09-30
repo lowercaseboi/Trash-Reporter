@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+    background-color: #e9ecef;
     height: 100vh;
     margin: 0;
     display: flex;
@@ -19,7 +19,7 @@ body {
     background-color: white;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     max-width: 600px;
     width: 100%;
     margin: 20px;
@@ -27,64 +27,126 @@ body {
 }
 
 .navbar {
-    background-color: #4CAF50;
+    background-color: #28a745;
     padding: 10px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     text-align: center;
     color: white;
-}
-input[type="file"],
-textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    margin-top: 5px;
+    margin: -40px -40px 20px -40px;
 }
 
-/* For the location button */
-#locationButton {
-    background-color: #4CAF50;
+.navbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.description-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    resize: vertical;
+    font-size: 16px;
+}
+
+#openCameraButton, #captureButton, #locationButton {
+    background-color: #28a745;
     color: white;
-    padding: 10px;
+    padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
+}
+
+#openCameraButton:hover, #captureButton:hover, #locationButton:hover {
+    background-color: #218838;
+}
+
+#captureButton {
     margin-top: 10px;
 }
 
-#locationButton:hover {
-    background-color: #45a049;
+/* CSS styles for the video and canvas elements */
+
+#mediaContainer {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Adjust as needed */
+    margin: 0 auto;
 }
+
+#video, #canvas {
+    width: 100%;
+    height: auto;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
 
 #map {
     width: 100%;
-    height: 400px;
+    height: 300px;
     margin-top: 20px;
-    display: none; /* Hidden initially */
+    display: none;
 }
+
 .button-container {
     display: flex;
-    justify-content: space-between; /* Space between buttons */
-    margin-top: 20px; /* Space above the buttons */
+    justify-content: space-between;
+    margin-top: 30px;
 }
+
 #submitComplaintButton, #cancel-button {
-    background-color: #4CAF50;
+    background-color: #28a745;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 30px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
 }
-#submitComplaintButton:hover {
-    background-color: #45a049;
+
+#submitComplaintButton:hover{
+    background-color: #218838;
 }
 
 #cancel-button {
-    background-color: #f44336; /* Red for cancel button */
+    background-color: #dc3545;
 }
+
 #cancel-button:hover {
-    background-color: #d32f2f; /* Darker red for cancel button on hover */
+    background-color: #c82333;
+}
+
+@media screen and (max-width: 600px) {
+    .button-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #submitComplaintButton, #cancel-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #cancel-button {
+        margin-bottom: 0;
+    }
 }
