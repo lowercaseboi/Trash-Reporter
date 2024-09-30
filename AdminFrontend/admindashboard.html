@@ -1,0 +1,42 @@
+<!-- Admin/AdminFrontend/admindashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Trash Reporter</title>
+    <link rel="stylesheet" href="admindashboard.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <button id="logoutButton" class="logout-btn">Logout</button> <!-- Add Logout Button -->
+        </div>
+        
+        <table id="reportsTable">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Description</th>
+                    <th>Location</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th>Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Reports will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal structure for enlarged images -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="fullImage" alt="Enlarged Complaint Image">
+    </div>
+
+    <script src="admindashboard.js"></script>
+</body>
+
+</html>
