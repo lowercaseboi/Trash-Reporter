@@ -2,17 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report Trash - Trash Reporter</title>
     <link rel="stylesheet" href="complain.css">
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
     <div class="container">
@@ -22,9 +19,14 @@
             </div>
             <form class="description-box" id="reportTrashForm" enctype="multipart/form-data" onsubmit="event.preventDefault(); submitComplaint();">
                 <div class="form-group">
-                    <label for="image">Upload Image:</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
-                </div>
+                    <label for="openCameraButton">Take a Photo:</label>
+                    <button type="button" id="openCameraButton">Open Camera</button>
+                    <div id="mediaContainer">
+                        <video id="video" autoplay playsinline></video>
+                        <canvas id="canvas" style="display:none;"></canvas>
+                    </div>
+                    <button type="button" id="captureButton" style="display:none;">Click Image</button>
+                </div>                
                 <div class="form-group">
                     <label for="description">Description:</label>
                     <textarea id="description" name="description" rows="4" required placeholder="Describe the issue"></textarea>
@@ -34,7 +36,7 @@
                     <button type="button" id="locationButton">Get Your Location</button>
                 </div>
                 <!-- Map container -->
-                <div id="map" style="height: 300px; display: none;"></div> <!-- Added style for height and initial display -->
+                <div id="map"></div>
                 <div class="button-container">
                     <button type="submit" id="submitComplaintButton">Submit</button>
                     <button type="button" id="cancel-button" onclick="goBack()">Go Back to Dashboard</button>
@@ -42,7 +44,6 @@
             </form>
         </div>
     </div>
-    <!-- Custom JS -->
     <script src="complain.js"></script>
 </body>
 </html>
