@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Trash - Trash Reporter</title>
+    <link rel="stylesheet" href="complain.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+    <div class="container">
+        <div class="white-box">
+            <div class="navbar">
+                <h1>Report Trash</h1>
+            </div>
+            <form class="description-box" id="reportTrashForm" enctype="multipart/form-data" onsubmit="event.preventDefault(); submitComplaint();">
+                <div class="form-group">
+                    <button type="button" id="openCameraButton">Open Camera</button>
+                    <div id="mediaContainer">
+                        <video id="video" width="300" height="225" autoplay></video>
+                        <canvas id="canvas" width="300" height="225" style="display:none;"></canvas>
+                    </div>
+                    <button type="button" id="captureButton" style="display:none;">Click Image</button>
+                </div>                
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required placeholder="Describe the issue"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="locationButton">Your Location:</label>
+                    <button type="button" id="locationButton">Get Your Location</button>
+                </div>
+                <div id="map" style="height: 300px; display: none;"></div>
+                <div class="button-container">
+                    <button type="submit" id="submitComplaintButton">Submit</button>
+                    <button type="button" id="cancel-button" onclick="goBack()">Go Back to Dashboard</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="complain.js"></script>
+</body>
+</html>
+
+
+this is the complain.html code
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.white-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+    margin: 20px;
+    position: relative;
+}
+
+.navbar {
+    background-color: #4CAF50;
+    padding: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: center;
+    color: white;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+#captureButton, #openCameraButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#captureButton:hover, #openCameraButton:hover {
+    background-color: #45a049;
+}
+
+/* Ensure both video and canvas occupy the same space */
+#mediaContainer {
+    position: relative;
+    width: 300px;
+    height: 225px;
+}
+
+#video, #canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+    margin-top: 20px;
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+#submitComplaintButton, #cancel-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#submitComplaintButton:hover {
+    background-color: #45a049;
+}
+
+#cancel-button {
+    background-color: #f44336;
+}
+
+#cancel-button:hover {
+    background-color: #d32f2f;
+}
+/* Ensure the Click Image button is hidden initially */
+#clickImageButton {
+    display: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#clickImageButton:hover {
+    background-color: #45a049;
+}
+
+
+this is the complain.css code
+
+
+let lat, lng; // Define lat and lng variables globally
+let stream; // Store the video stream globally
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const context = canvas.getContext("2d");
+const clickImageButton = document.getElementById("clickImageButton");
+
+// Function to open the camera and start the video stream with the date/time overlay
+document.getElementById("openCameraButton").addEventListener("click", function () {
+    // Open the camera
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (streamObj) {
+                stream = streamObj;
+                video.style.display = "block";
+                video.srcObject = stream;
+
+                // Continuously update the video with the live date and time overlay
+                function updateVideoFrame() {
+                    context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+                    context.drawImage(video, 0, 0, canvas.width, canvas.height); // Draw the live video frame
+
+                    // Overlay live date and time on the canvas
+                    const now = new Date();
+                    const dateTimeText = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+                    context.font = "20px Arial"; // Font style for the overlay text
+                    context.fillStyle = "white"; // White text color
+                    context.textAlign = "right"; // Align the text to the bottom right corner
+                    context.fillText(dateTimeText, canvas.width - 10, canvas.height - 10); // Position the text
+
+                    // Repeat the process for the next frame
+                    requestAnimationFrame(updateVideoFrame);
+                }
+
+                // Start updating the video frame with the date and time
+                requestAnimationFrame(updateVideoFrame);
+
+                // Show the "Click Image" button after opening the camera
+                clickImageButton.style.display = "block"; // Ensure the button is visible
+            })
+            .catch(function (error) {
+                console.error("Error accessing camera:", error);
+                // Comment out the alert to suppress the error message if the camera still opens
+                // alert("Unable to access your camera.");
+            });
+    } else {
+        alert("Camera not supported by your browser.");
+    }
+});
+
+// Function to capture the image and freeze the canvas with the current date/time
+clickImageButton.addEventListener("click", function () {
+    // Stop the video stream
+    stream.getTracks().forEach(track => track.stop());
+
+    // Capture the frame and freeze the canvas
+    context.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    context.drawImage(video, 0, 0, canvas.width, canvas.height); // Capture the video frame
+
+    // Overlay live date and time on the captured frame (this freezes the time)
+    const now = new Date();
+    const dateTimeText = `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+    context.font = "20px Arial"; // Font style for the overlay text
+    context.fillStyle = "white"; // White text color
+    context.textAlign = "right"; // Align the text to the bottom right corner
+    context.fillText(dateTimeText, canvas.width - 10, canvas.height - 10); // Position the text
+
+    // Hide the video element and show the captured image (canvas)
+    video.style.display = "none";
+    canvas.style.display = "block";
+});
+
+// Function to submit the complaint (as before)
+async function submitComplaint() {
+    const description = document.getElementById("description").value; // Get description from input
+    const canvas = document.getElementById("canvas");
+    const location = {
+        longitude: lng, // Use the global lng variable
+        latitude: lat   // Use the global lat variable
+    };
+
+    // Convert canvas image to Blob
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg'));
+
+    const token = localStorage.getItem('authToken'); // Retrieve the token
+    const userId = localStorage.getItem('userId'); // Retrieve the user ID
+
+    const formData = new FormData(); // Create FormData object
+    formData.append('description', description);
+    formData.append('location', JSON.stringify(location));
+    formData.append('image', blob); // Append the captured image as a Blob
+    formData.append('userId', userId);
+
+    try {
+        const response = await fetch('http://localhost:5000/api/complaints', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}` // Include the token in the headers
+            },
+            body: formData // Use FormData as the body
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            alert(data.message); // Show success message
+            goBack(); // Redirect to dashboard after submission
+        } else {
+            alert(`Error: ${data.message}`); // Show error message
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while submitting the complaint.');
+    }
+}
+
+// Function to go back to the dashboard
+function goBack() {
+    window.location.href = 'dashboard.html'; // Redirect to dashboard
+}
+
+// Add event listener for the location button (already implemented)
+document.getElementById("locationButton").addEventListener("click", function() {
+    const mapContainer = document.getElementById("map");
+    mapContainer.style.display = "block"; // Make the map container visible
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            lat = position.coords.latitude;
+            lng = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+
+            const map = L.map('map').setView([lat, lng], 15);
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            L.marker([lat, lng]).addTo(map)
+                .bindPopup('You are here! Accuracy: ' + accuracy + ' meters')
+                .openPopup();
+
+            L.circle([lat, lng], { radius: accuracy }).addTo(map);
+        }, function(error) {
+            console.error(error);
+            alert("Error retrieving your location");
+        });
+    } else {
+        alert("Geolocation is not supported by your browser.");
+    }
+});
+
+
+this is the complain.js code

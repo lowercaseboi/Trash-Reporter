@@ -1,0 +1,11 @@
+# Dependency folders (for both backend and admin backend)
+**/node_modules/
+
+# Environment files with secret keys
+**/.env
+
+# User-uploaded content
+Backend/uploads/
+
+# Other sensitive files
+ngrok key.txt
